@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decreto Real de Westeros - Edición Especial</title>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cinzel+Decorative:wght@700&family=MedievalSharp&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Encabezado -->
+    <div class="titulo">
+        <h1>
+            <span class="corona">👑</span>
+            LOS SIETE REINOS DE WESTEROS
+            <span class="corona">👑</span>
+        </h1>
+    </div>
+
+    <!-- Contenedor Inicial con el Cuervo -->
+    <div class="pergamino-inicial">
+        <div class="cuervo-container" id="cuervoTarget">
+            <svg class="cuervo-svg" viewBox="0 0 100 100">
+                <!-- Silueta Cuervo Elegante -->
+                <path fill="#111" d="M20,60 Q25,25 50,20 Q75,15 85,35 Q95,50 80,75 Q60,85 45,75 Q25,80 20,60 Z" />
+                <path fill="#000" d="M40,30 Q60,10 80,25 Q70,35 45,30 Z" />
+                <circle cx="70" cy="25" r="2.5" fill="#ff3300" />
+                <polygon points="80,25 98,28 82,35" fill="#222" />
+                <!-- Carta en el pico -->
+                <rect x="75" y="32" width="16" height="10" fill="#f2e3c6" stroke="#b8860b" stroke-width="1" transform="rotate(15 75 32)" />
+            </svg>
+            <p class="pista-cuervo">⚠️ Clic para interceptar cuervo</p>
+        </div>
+
+        <div class="mision">
+            <h2>MENSAJE URGENTE DE LA FORTALEZA ROJA</h2>
+            <p>Un cuervo ha llegado trayendo un decreto de la Gran Casa. Rompe el sello para dar lectura.</p>
+            <div class="sello" id="selloCera">
+                <h1 class="sello-icono">⚜️</h1>
+                <p>Romper Sello Real</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flecha Vectorial Realista -->
+    <div class="flecha-svg-box" id="flechaReal">
+        <svg viewBox="0 0 100 20" width="80" height="20">
+            <path d="M0,9 L75,9 L75,5 L95,10 L75,15 L75,11 L0,11 Z" fill="#b8860b" />
+            <polygon points="0,5 12,10 0,15" fill="#8b0000" />
+            <polygon points="95,10 75,3 78,10 75,17" fill="#e2d9c5" />
+        </svg>
+    </div>
+
+    <!-- Trono de Hierro Flotante (Aparece tras click al cuervo) -->
+    <div class="trono-flotante" id="tronoBtn" title="Cambiar Casa Noble / Imagen">
+        <svg viewBox="0 0 100 100" class="trono-icon">
+            <path d="M30,90 L70,90 L65,50 L80,30 L70,20 L60,35 L50,10 L40,35 L30,20 L20,30 L35,50 Z" fill="#555" stroke="#111" stroke-width="2"/>
+            <path d="M25,90 L75,90 L70,60 L30,60 Z" fill="#333" />
+            <line x1="50" y1="10" x2="50" y2="90" stroke="#888" stroke-width="2"/>
+            <line x1="35" y1="30" x2="65" y2="70" stroke="#777" stroke-width="1.5"/>
+            <line x1="65" y1="30" x2="35" y2="70" stroke="#777" stroke-width="1.5"/>
+        </svg>
+        <span>Cámara del Trono</span>
+    </div>
+
+    <!-- Modal Flotante de Selección de Casa (Accedido por el Trono) -->
+    <div class="modal-trono" id="modalTrono">
+        <div class="modal-trono-content">
+            <span class="cerrar-trono" onclick="cerrarTrono()">&times;</span>
+            <h2>⚔️ Selecciona tu Casa Noble</h2>
+            <div class="botones-casas">
+                <button onclick="cambiarCasa('targaryen')">🐉 Targaryen</button>
+                <button onclick="cambiarCasa('stark')">🐺 Stark</button>
+                <button onclick="cambiarCasa('lannister')">🦁 Lannister</button>
+                <button onclick="cambiarCasa('baratheon')">🦌 Baratheon</button>
+            </div>
+            <label class="btn-subir-foto">
+                📸 Subir Tu Propia Imagen
+                <input type="file" id="inputFoto" accept="image/*" style="display:none;">
+            </label>
+        </div>
+    </div>
+
+    <!-- Carta Abierta / Decreto del Trono -->
+    <div class="carta" id="cartaPrincipal">
+        <div class="cabecera">
+            <h1>Decreto del Trono de Hierro</h1>
+            <h2>¡En Honor al Nacimiento de la Nobleza!</h2>
+            <p class="subtitulo">"El Invierno ha Pasado, la Celebración Comienza" 🐉⚔️</p>
+        </div>
+        <hr class="linea-dorada">
+
+        <!-- Registro de Nobleza -->
+        <div class="registro" id="registroBox">
+            <div class="portada">
+                <h1 id="tituloCasa">CASA TARGARYEN</h1>
+                <img class="portada-img" id="imgNoble" src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=300" alt="Retrato Noble">
+                <h2 id="rangoNoble">Protector/a del Reino</h2>
+            </div>
+
+            <div class="datos">
+                <p class="insignia">Pase de la Corte Real</p>
+                <div>Nombre: <h2 id="nombreNoble">Lady / Lord Sarah</h2></div>
+                <div>Edad / Nivel: <h2>+1 Año de Conquista</h2></div>
+                <div>Casa Leal: <h2 id="nombreCasaText">Targaryen</h2></div>
+                <div>Lema: <h2 id="lemaCasa">"Fuego y Sangre"</h2></div>
+                <div>Dominio: <h2>Protector/a de los Siete Reinos</h2></div>
+            </div>
+        </div>
+
+        <!-- Mensaje en Pergamino Antiguo -->
+        <div class="pergamino-papel">
+            <div class="contenido-papel">
+                <h1>"Bendito sea el día de tu nacimiento en Westeros"</h1>
+                <p>Por orden del Trono de Hierro, se declara este día como festivo en todas las comarcas, desde el Muro hasta las tierras cálidas de Dorne. Has reclamado tu lugar de honor superando las batallas y el juego de tronos con valentía e inteligencia.</p>
+                <div class="mensaje2">
+                    <p>Que este nuevo año reine la victoria en tus dominios, que la lealtad de tus aliados sea inquebrantable como el Acero Valyrio y que tus banquetes sean más legendarios que los de la Fortaleza Roja. ¡Que los Siete Dioses guíen tu camino!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="firma">
+            <button class="JUTSU" id="btnDracarys">🔥 ¡DRACARYS!</button>
+            <button class="ver-misiones" id="btnMisiones">📜 Edictos del Rey</button>
+        </div>
+
+        <!-- Modal Edictos -->
+        <div class="misiones" id="modalMisiones">
+            <div class="misiones-cumple">
+                <h1>Edictos del Trono de Hierro</h1>
+                <p>Órdenes reales para la celebración. ¡Cúmplelas o atente a las consecuencias!</p>
+                <ul>
+                    <li><span>Edicto I:</span> Reclamar el asiento de honor en el banquete real y exigir la primera tajada del pastel.</li>
+                    <li><span>Edicto II:</span> Encender las velas y pronunciar "Dracarys" con la fuerza de un dragón.</li>
+                    <li><span>Edicto III:</span> Brindar con tu Pequeño Consejo de leales aliados.</li>
+                </ul>
+                         
+                <div class="opciones-edictos">
+                    <button class="aceptar" id="btnAceptarEdictos">Jurar Lealtad</button>
+                    <button class="rechazar" id="btnRechazarEdictos">Rechazar Edictos 🍷</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+    <!-- Animación Sangre Boda Roja -->
+    <div id="sangreContenedor"></div>
+
+    <!-- Modal Boda Roja -->
+    <div class="boda-roja-overlay" id="bodaRojaModal">
+        <div class="boda-roja-card">
+            <h1>🍷 LA BODA ROJA 🗡️</h1>
+            <h2>"Lord Frey envía sus saludos..."</h2>
+            <p>Has intentado rechazar la voluntad del Rey. Las puertas del salón se han cerrado y los músicos han comenzado a tocar <i>"Las Lluvias de Castamere"</i>...</p>
+            <p class="advertencia">¡Traición en el banquete! Nadie escapa sin celebrar el cumpleaños.</p>
+            <button onclick="cerrarBodaRoja()">¡Arrepentirse y Celebrar!</button>
+        </div>
+    </div>
+
+    <!-- Contenedor Fuego Dracarys -->
+    <div id="fuegoOverlay"></div>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #090a0f url('https://www.transparenttextures.com/patterns/dark-wood.png');
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
+    overflow-x: hidden;
+    color: #e2d9c5;
+  }
+
+  .titulo {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Cinzel Decorative', serif;
+  }
+
+  .titulo h1 {
+    color: #f7c844;
+    background: #12151e;
+    border: 2px solid #b8860b;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: clamp(0.9rem, 3.8vw, 1.6rem);
+    box-shadow: 0 0 15px rgba(184, 134, 11, 0.4);
+  }
+
+  /* Cuervo e Interacción */
+  .pergamino-inicial {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+  }
+
+  .cuervo-container {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto -20px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    transition: transform 0.3s;
+  }
+
+  .cuervo-container:hover { transform: scale(1.08); }
+
+  .cuervo-svg { width: 100%; height: 100%; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8)); }
+
+  .pista-cuervo {
+    font-size: 10px;
+    color: #ff5555;
+    font-weight: bold;
+    margin-top: -15px;
+    font-family: 'Cinzel', serif;
+  }
+
+  .cuervo-caida {
+    animation: caerCuervo 1.2s forwards ease-in !important;
+  }
+
+  @keyframes caerCuervo {
+    0% { transform: translateY(0) rotate(0deg); }
+    20% { transform: translateY(-15px) rotate(-30deg); }
+    100% { transform: translateY(600px) rotate(220deg); opacity: 0; }
+  }
+
+  /* Flecha Vectorial */
+  .flecha-svg-box {
+    position: fixed;
+    z-index: 100;
+    display: none;
+    pointer-events: none;
+  }
+
+  /* Trono de Hierro Flotante */
+  .trono-flotante {
+    position: fixed;
+    right: 20px;
+    top: 30%;
+    width: 75px;
+    height: 75px;
+    background: rgba(18, 21, 30, 0.85);
+    border: 2px solid #b8860b;
+    border-radius: 50%;
+    display: none; /* Se activa tras click al cuervo */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 500;
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+  }
+
+  .trono-flotante:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(247, 200, 68, 0.8);
+  }
+
+  .trono-icon { width: 40px; height: 40px; }
+  .trono-flotante span { font-size: 8px; color: #f7c844; font-family: 'Cinzel', serif; text-align: center; margin-top: 2px; }
+
+  /* Modal Trono */
+  .modal-trono {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1500;
+  }
+
+  .modal-trono-content {
+    background: #12151e;
+    border: 2px solid #b8860b;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 0 30px rgba(184, 134, 11, 0.5);
+  }
+
+  .cerrar-trono {
+    position: absolute;
+    right: 15px; top: 10px;
+    color: #f7c844;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .modal-trono-content h2 { color: #f7c844; font-family: 'Cinzel', serif; font-size: 1.1rem; margin-bottom: 15px; }
+
+  .botones-casas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  .botones-casas button {
+    background: #1a1d28;
+    color: #fff;
+    border: 1px solid #b8860b;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Cinzel', serif;
+  }
+
+  .botones-casas button:hover { background: #b8860b; color: #000; }
+
+  .btn-subir-foto {
+    display: inline-block;
+    background: #8b0000;
+    color: #f7c844;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #f7c844;
+    font-family: 'Cinzel', serif;
+  }
+
+  /* Carta Principal */
+  .mision {
+    background: #f2e3c6 url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    color: #2b1f17;
+    padding: 30px 20px 20px;
+    border-radius: 10px;
+    border: 2px solid #b8860b;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+  }
+
+  .mision h2 { color: #8b0000; font-family: 'Cinzel', serif; font-size: 1.1rem; }
+  .mision p { font-family: 'MedievalSharp', cursive; margin-top: 5px; }
+
+  .sello {
+    width: 120px;
+    height: 120px;
+    margin: 15px auto 0;
+    background: radial-gradient(circle, #aa0a0a 0%, #5a0000 100%);
+    border-radius: 50%;
+    border: 3px dashed #f7c844;
+    box-shadow: 0 0 15px rgba(170, 10, 10, 0.8);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+
+  .sello:hover { transform: scale(1.08); }
+  .sello-icono { font-size: 35px; }
+  .sello p { color: #f7c844; font-family: 'Cinzel', serif; font-size: 10px; font-weight: bold; }
+
+  .carta {
+    width: 100%;
+    max-width: 800px;
+    background: #151821 url('https://www.transparenttextures.com/patterns/dark-leather.png');
+    border: 3px solid #b8860b;
+    border-radius: 10px;
+    padding: 20px;
+    display: none;
+    box-shadow: 0 0 30px rgba(0,0,0,0.9);
+  }
+
+  .cabecera h1 {
+    background: #090a0f;
+    color: #b8860b;
+    border: 1px solid #b8860b;
+    padding: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .cabecera h2 {
+    color: #f7c844;
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+  }
+
+  .subtitulo { text-align: center; font-size: 0.85rem; color: #aaa; margin-top: 5px; }
+
+  .linea-dorada {
+    margin: 15px 0;
+    border: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #b8860b, transparent);
+  }
+
+  /* Registro */
+  .registro {
+    background: #0e1017;
+    border: 1px solid #b8860b;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    transition: background 0.5s;
+  }
+
+  .portada { flex: 1 1 200px; text-align: center; }
+  .portada h1 { font-family: 'Cinzel', serif; color: #f7c844; font-size: 14px; margin-bottom: 8px; }
+  .portada-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #b8860b; object-fit: cover; }
+  .portada h2 { font-size: 12px; color: #ccc; margin-top: 5px; font-style: italic; }
+
+  .datos { flex: 1 1 250px; border-left: 2px solid #b8860b; padding-left: 15px; text-align: left; }
+  .insignia { background: #8b0000; color: #f7c844; padding: 2px 6px; font-size: 10px; font-family: 'Cinzel', serif; display: inline-block; margin-bottom: 8px; }
+  .datos div { font-size: 12px; color: #aaa; margin-bottom: 6px; }
+  .datos h2 { color: #fff; font-size: 14px; display: inline-block; font-family: 'Cinzel', serif; }
+
+  /* Pergamino Papel */
+  .pergamino-papel {
+    background: #f2e3c6 url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    color: #2b1f17;
+    padding: 25px 20px;
+    border-radius: 4px;
+    border-left: 8px solid #d4b886;
+    border-right: 8px solid #d4b886;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+  }
+
+  .contenido-papel h1 { color: #8b0000; font-family: 'Cinzel Decorative', serif; font-size: 1.1rem; text-align: center; margin-bottom: 10px; }
+  .contenido-papel p { font-family: 'MedievalSharp', cursive; font-size: 1rem; line-height: 1.5; text-align: center; }
+
+  .mensaje2 {
+    background: rgba(139, 0, 0, 0.1);
+    border-left: 3px solid #8b0000;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* Botones Firma */
+  .firma { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  .JUTSU, .ver-misiones {
+    background: linear-gradient(180deg, #8b0000 0%, #4a0000 100%);
+    color: #f7c844;
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: 1px solid #f7c844;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1 1 180px;
+    max-width: 250px;
+  }
+
+  .ver-misiones { background: linear-gradient(180deg, #1f2430 0%, #0d0f14 100%); border-color: #b8860b; color: #e2d9c5; }
+
+  /* Modal Misiones */
+  .misiones {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f2e3c6 url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    color: #2b1f17;
+    border: 3px solid #b8860b;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 0 50px rgba(0,0,0,0.9);
+  }
+
+  .misiones h1 { color: #8b0000; font-family: 'Cinzel Decorative', serif; font-size: 1.2rem; text-align: center; }
+  .misiones ul { list-style: none; margin: 15px 0; }
+  .misiones li { background: rgba(255,255,255,0.6); border: 1px solid #b8860b; padding: 8px; margin-bottom: 8px; border-radius: 4px; font-family: 'MedievalSharp', cursive; font-size: 13px; }
+  .misiones span { background: #8b0000; color: #f7c844; padding: 2px 5px; font-size: 10px; font-family: 'Cinzel', serif; border-radius: 3px; }
+
+  .opciones-edictos { display: flex; gap: 10px; justify-content: center; }
+  .aceptar { background: #8b0000; color: #f7c844; border: 1px solid #f7c844; padding: 8px 15px; border-radius: 4px; font-family: 'Cinzel', serif; cursor: pointer; }
+  .rechazar { background: #222; color: #ff4444; border: 1px solid #ff4444; padding: 8px 15px; border-radius: 4px; font-family: 'Cinzel', serif; cursor: pointer; }
+
+  /* Animación Goteo de Sangre */
+  #sangreContenedor {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1800;
+    display: none;
+  }
+
+  .gota-sangre {
+    position: absolute;
+    top: -100px;
+    background: linear-gradient(180deg, #aa0000 0%, #440000 50%);
+    border-radius: 0 0 50px 50px;
+    animation: caerSangre 9s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  @keyframes caerSangre {
+    0% { height: 0; top: 0; opacity: 0.9; }
+    100% { height: 100vh; top: 0; opacity: 1; }
+  }
+
+  /* Boda Roja Modal */
+  .boda-roja-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(40, 0, 0, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .boda-roja-card {
+    background: #110000;
+    border: 3px solid #ff0000;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 450px;
+    box-shadow: 0 0 40px #ff0000;
+  }
+
+  .boda-roja-card h1 { color: #ff0000; font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; }
+  .boda-roja-card h2 { color: #f7c844; font-family: 'Cinzel', serif; font-size: 1rem; margin: 10px 0; }
+  .boda-roja-card p { font-family: 'MedievalSharp', cursive; font-size: 0.95rem; color: #ddd; margin-bottom: 15px; }
+  .advertencia { color: #ff6666 !important; font-weight: bold; }
+  .boda-roja-card button { background: #ff0000; color: #fff; border: none; padding: 10px 20px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; border-radius: 5px; }
+
+  /* Fuego Dracarys Masivo */
+  #fuegoOverlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 3000;
+    display: none;
+    background: linear-gradient(180deg, rgba(255,68,0,0.9) 0%, rgba(255,200,0,0.6) 50%, transparent 100%);
+  }
+
+  .shake { animation: shakeScreen 0.5s ease-in-out infinite; }
+
+  @keyframes shakeScreen {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-10px, 10px); }
+    40% { transform: translate(10px, -10px); }
+    60% { transform: translate(-5px, -5px); }
+    80% { transform: translate(5px, 5px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  .llamarada {
+    position: fixed;
+    top: -50px;
+    background: radial-gradient(circle, #ffe600 0%, #ff3300 60%, transparent 100%);
+    border-radius: 50%;
+    filter: blur(8px);
+    animation: bajarFuego 1.5s forwards linear;
+    pointer-events: none;
+    z-index: 3001;
+  }
+
+  @keyframes bajarFuego {
+    0% { top: -100px; opacity: 1; transform: scale(1); }
+    100% { top: 110vh; opacity: 0; transform: scale(3); }
+  }
+
+  @media (max-width: 600px) {
+    .datos { border-left: none; border-top: 2px solid #b8860b; padding-left: 0; padding-top: 10px; }
+  }
+</style>
+
+<script>
+    // Audio sintetizado
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSonidoCuervo() {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(550, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+    }
+
+    // Interacción Flecha y Cuervo
+    const cuervoTarget = document.getElementById('cuervoTarget');
+    const flechaReal = document.getElementById('flechaReal');
+    const tronoBtn = document.getElementById('tronoBtn');
+
+    cuervoTarget.addEventListener('click', (e) => {
+        e.stopPropagation();
+        playSonidoCuervo();
+        
+        // Obtener posición del cuervo
+        const rect = cuervoTarget.getBoundingClientRect();
+        const cuervoX = rect.left + rect.width / 2;
+        const cuervoY = rect.top + rect.height / 2;
+
+        flechaReal.style.display = 'block';
+        flechaReal.style.left = '-100px';
+        flechaReal.style.top = (cuervoY - 10) + 'px';
+        
+        // La flecha viaja de izquierda a derecha directamente al centro del cuervo
+        flechaReal.animate([
+            { left: '-100px' },
+            { left: (cuervoX + 20) + 'px' }
+        ], { duration: 300, easing: 'ease-in' }).onfinish = () => {
+            flechaReal.style.display = 'none';
+            cuervoTarget.classList.add('cuervo-caida');
+            
+            // Hacer aparecer el Trono de Hierro flotante
+            setTimeout(() => {
+                tronoBtn.style.display = 'flex';
+            }, 600);
+        };
+    });
+
+    // Abrir Trono y Modal de Casas
+    const modalTrono = document.getElementById('modalTrono');
+    tronoBtn.addEventListener('click', () => {
+        modalTrono.style.display = 'flex';
+    });
+
+    function cerrarTrono() {
+        modalTrono.style.display = 'none';
+    }
+
+    // Abrir Carta Principal
+    const selloCera = document.getElementById('selloCera');
+    const cartaPrincipal = document.getElementById('cartaPrincipal');
+    const pergaminoInicial = document.querySelector('.pergamino-inicial');
+
+    selloCera.addEventListener('click', () => {
+        pergaminoInicial.style.display = 'none';
+        cartaPrincipal.style.display = 'block';
+    });
+
+    // Cambiar Casas
+    const datosCasas = {
+        targaryen: { titulo: "CASA TARGARYEN", nombre: "Targaryen", lema: '"Fuego y Sangre"', img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=300", bg: "#0e1017" },
+        stark: { titulo: "CASA STARK", nombre: "Stark", lema: '"El Invierno se Acerca"', img: "https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=300", bg: "#131a24" },
+        lannister: { titulo: "CASA LANNISTER", nombre: "Lannister", lema: '"¡Oye mi Rugido!"', img: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?q=80&w=300", bg: "#220e10" },
+        baratheon: { titulo: "CASA BARATHEON", nombre: "Baratheon", lema: '"Nuestra es la Furia"', img: "https://images.unsplash.com/photo-1484406566174-9da000fda645?q=80&w=300", bg: "#1e1a0e" }
+    };
+
+    function cambiarCasa(casaKey) {
+        const casa = datosCasas[casaKey];
+        document.getElementById('tituloCasa').innerText = casa.titulo;
+        document.getElementById('nombreCasaText').innerText = casa.nombre;
+        document.getElementById('lemaCasa').innerText = casa.lema;
+        document.getElementById('imgNoble').src = casa.img;
+        document.getElementById('registroBox').style.background = casa.bg;
+        cerrarTrono();
+    }
+
+    // Subir Foto
+    const inputFoto = document.getElementById('inputFoto');
+    inputFoto.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById('imgNoble').src = event.target.result;
+                cerrarTrono();
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Modal Misiones
+    const btnMisiones = document.getElementById('btnMisiones');
+    const modalMisiones = document.getElementById('modalMisiones');
+    const btnAceptarEdictos = document.getElementById('btnAceptarEdictos');
+    const btnRechazarEdictos = document.getElementById('btnRechazarEdictos');
+    const bodaRojaModal = document.getElementById('bodaRojaModal');
+
+    btnMisiones.addEventListener('click', () => modalMisiones.style.display = 'block');
+    btnAceptarEdictos.addEventListener('click', () => {
+        modalMisiones.style.display = 'none';
+        alert('⚔️ ¡Has jurado lealtad al Trono! La fiesta puede continuar.');
+    });
+
+    // Animación Sangre Boda Roja
+    const sangreContenedor = document.getElementById('sangreContenedor');
+
+    btnRechazarEdictos.addEventListener('click', () => {
+        modalMisiones.style.display = 'none';
+        sangreContenedor.style.display = 'block';
+        sangreContenedor.innerHTML = '';
+
+        // Generar chorros/gotas de sangre cayendo
+        for (let i = 0; i < 15; i++) {
+            const gota = document.createElement('div');
+            gota.classList.add('gota-sangre');
+            gota.style.left = (i * 7) + '%';
+            gota.style.width = (Math.random() * 8 + 5) + '%';
+            gota.style.animationDelay = (Math.random() * 0.3) + 's';
+            sangreContenedor.appendChild(gota);
+        }
+
+        setTimeout(() => {
+            bodaRojaModal.style.display = 'flex';
+        }, 9000);
+    });
+
+    function cerrarBodaRoja() {
+        bodaRojaModal.style.display = 'none';
+        sangreContenedor.style.display = 'none';
+    }
+
+    // Dracarys
+    const btnDracarys = document.getElementById('btnDracarys');
+    const fuegoOverlay = document.getElementById('fuegoOverlay');
+
+    btnDracarys.addEventListener('click', () => {
+        document.body.classList.add('shake');
+        fuegoOverlay.style.display = 'block';
+
+        for (let i = 0; i < 40; i++) {
+            const llama = document.createElement('div');
+            llama.classList.add('llamarada');
+            
+            const size = Math.random() * 100 + 80 + 'px';
+            llama.style.width = size;
+            llama.style.height = size;
+            llama.style.left = Math.random() * 100 + 'vw';
+            llama.style.animationDuration = (Math.random() * 1 + 0.8) + 's';
+            llama.style.animationDelay = Math.random() * 0.5 + 's';
+
+            document.body.appendChild(llama);
+
+            setTimeout(() => llama.remove(), 2000);
+        }
+
+        setTimeout(() => {
+            document.body.classList.remove('shake');
+            fuegoOverlay.style.display = 'none';
+        }, 2200);
+    });
+</script>
+</body>
+</html>
